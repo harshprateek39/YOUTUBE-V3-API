@@ -1,0 +1,32 @@
+/* VideoPlayer.css */
+.video-player-container {
+    position: relative;
+  }
+  
+  .video-player {
+    width: 70%;
+    height: 70%;
+  }
+  
+  .controls-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .play-pause-button {
+    background-color: #3498db;
+    color: #ffffff;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .play-pause-button:hover {
+    background-color: #2980b9;
+  }
+  
