@@ -1,37 +1,35 @@
+// src/VideoPlayer.js
 import React, { useState, useEffect } from 'react';
 import YouTube from 'react-youtube';
+import axios from 'axios';
 
 const VideoPlayer = ({ videoId }) => {
-  const [player, setPlayer] = useState(null);
+  const [videoDetails, setVideoDetails] = useState(null);
 
   useEffect(() => {
-    const options = {
-      playerVars: {
-        autoplay: 1,
-      },
-    };
-    const onReady = (event) => {
-      setPlayer(event.target);
-    };
-    const onEnd = () => {
-      console.log('Video ended');
-    };
-    if (player) {
-      player.addEventListener('onReady', onReady);
-      player.addEventListener('onEnd', onEnd);
-    }
-
-    return () => {
-      if (player) {
-        player.removeEventListener('onReady', onReady);
-        player.removeEventListener('onEnd', onEnd);
+    const fetchVideoDetails = async () => {
+      try {
+        const response = await axios.get(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=AIzaSyC3rmd7R0IDaZl1xe00HskdX657xIM5imc`
+        );
+        setVideoDetails(response.data.items[0].snippet);
+      } catch (error) {
+        console.error('Error fetching video details:', error);
       }
     };
-  }, [player]);
+
+    fetchVideoDetails();
+  }, [videoId]); 
 
   return (
-    <div style={{ borderRadius:"30px"}}  className="video-player-container ">
-      <YouTube videoId={videoId} className="video-player" />
+    <div >
+      {videoDetails && (
+        <div>
+          <h2>{videoDetails.title}</h2>
+          
+          <YouTube videoId={videoId} />
+        </div>
+      )}
     </div>
   );
 };
